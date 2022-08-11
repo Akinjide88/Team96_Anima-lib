@@ -6,12 +6,16 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from .forms import RegisterForm
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_text
 from . tokens import generate_token
+=======
+from django.contrib.auth import authenticate, login , logout
+>>>>>>> 00aa4bb62df58b79ee97b025f41693187325bbb1
 
 
 # Create your views here.
@@ -121,7 +125,30 @@ def forgot(request):
 def profilepage(request):
     return render(request, 'accounts/profile.html')
 
+#Login page view
+def login_user (request):
+    if request.method == 'POST':
+        email = request.POST.get['Email']
+        password = request.POST.get['Password']
+        user = authenticate(request, Email= email, Password = password)
+        
+        if  user is not None:
+            login (request, user)
+            # return redirect
+            
+        else:
+            messages.error(request, "Incorrect Email address or Password")
+        
+    return render(request,'accounts/login.html' )
+
+#logout page view
+def logout_user(request):
+    
+    logout(request)
+    return redirect (request, 'index.html')
+
 #ContactUs Page View
 
 def contact(request):
     return render(request, 'accounts/contact.html')
+
